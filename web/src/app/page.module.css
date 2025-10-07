@@ -1,0 +1,169 @@
+/* Landing sayfasi stilleri */
+
+.page {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100svh;
+  background: radial-gradient(1200px 600px at 80% -100px, rgba(59,130,246,.12), transparent),
+              radial-gradient(800px 400px at -20% 0px, rgba(16,185,129,.10), transparent);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.brandMark {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #22c55e, #3b82f6);
+  box-shadow: 0 6px 20px rgba(59,130,246,.25);
+}
+
+.navCtas {
+  display: flex;
+  gap: 10px;
+}
+
+.linkBtn {
+  appearance: none;
+  border: 1px solid rgba(17,17,17,.1);
+  background: white;
+  color: #111;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.linkPrimary {
+  background: #111;
+  color: white;
+  border-color: #111;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  padding: 32px 24px 24px 24px;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; padding-top: 12px; }
+}
+
+.heroTitle {
+  font-size: clamp(28px, 4.6vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 900;
+}
+
+.heroSubtitle {
+  margin-top: 12px;
+  font-size: clamp(16px, 2.2vw, 20px);
+  color: #404040;
+}
+
+.heroCtas { display: flex; gap: 12px; margin-top: 16px; }
+
+/* Cihaz maketleri */
+.mockupWrap { display: grid; gap: 12px; }
+
+.tv {
+  width: min(720px, 90vw);
+  aspect-ratio: 16/9;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #0a0a0a, #1a1a1a);
+  border: 2px solid #111;
+  box-shadow: 0 12px 60px rgba(0,0,0,.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.tvBezel { position: absolute; inset: 0; border-radius: 16px; box-shadow: inset 0 0 0 10px rgba(255,255,255,.02); }
+
+.tvGrid { position: absolute; inset: 0; background-image: linear-gradient(0deg, rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 40px 40px; opacity: .6; }
+
+.phones { display: flex; gap: 10px; }
+
+.phone {
+  width: 120px; height: 240px; border-radius: 24px; background: #111; border: 2px solid #0a0a0a; box-shadow: 0 10px 30px rgba(0,0,0,.25); position: relative; overflow: hidden;
+}
+
+.phoneNotch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 14px; background: #0a0a0a; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; }
+
+.phonePad { position: absolute; inset: 10px; border-radius: 16px; background: radial-gradient(200px 200px at 70% -20%, rgba(59,130,246,.25), transparent), radial-gradient(180px 180px at -10% 100%, rgba(34,197,94,.25), transparent); display: grid; place-items: center; color: white; font-weight: 700; font-size: 24px; }
+
+/* Ozellikler */
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 8px 24px 24px 24px;
+}
+
+@media (max-width: 900px) {
+  .features { grid-template-columns: 1fr; }
+}
+
+.feature {
+  background: white;
+  border: 1px solid rgba(17,17,17,.08);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.05);
+}
+
+.featureTitle { font-weight: 800; font-size: 18px; margin-bottom: 6px; }
+.featureText { color: #404040; font-size: 14px; }
+
+/* Adimlar */
+.steps { padding: 8px 24px 32px 24px; }
+.stepsGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 900px) { .stepsGrid { grid-template-columns: 1fr; } }
+.step { background: white; border: 1px solid rgba(17,17,17,.08); border-radius: 16px; padding: 16px; }
+.stepNum { width: 28px; height: 28px; border-radius: 999px; background: #111; color: white; display: grid; place-items: center; font-weight: 800; margin-bottom: 8px; }
+
+/* Oyun Galerisi */
+.gallery { padding: 8px 24px 24px 24px; }
+.galleryGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+@media (max-width: 1200px) { .galleryGrid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 900px) { .galleryGrid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .galleryGrid { grid-template-columns: 1fr; } }
+.card { background: white; border: 1px solid rgba(17,17,17,.08); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,.05); }
+.cardImage { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #d1fae5, #dbeafe); }
+.cardBody { padding: 12px; }
+.cardTitle { font-weight: 800; font-size: 16px; }
+.cardText { color: #404040; font-size: 13px; margin-top: 4px; }
+
+/* Market Logolari */
+.markets { padding: 8px 24px 32px 24px; display: grid; gap: 12px; }
+.marketRow { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.marketBadge { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 12px; background: #111; color: white; text-decoration: none; font-weight: 700; }
+.marketIcon { width: 18px; height: 18px; border-radius: 4px; background: linear-gradient(135deg, #22c55e, #3b82f6); box-shadow: 0 4px 12px rgba(59,130,246,.25); }
+.marketBadgeLight { background: white; color: #111; border: 1px solid rgba(17,17,17,.1); }
+
+.footer {
+  border-top: 1px solid rgba(17,17,17,.08);
+  padding: 16px 24px;
+  color: #525252;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footerLinks { display: flex; gap: 12px; }
