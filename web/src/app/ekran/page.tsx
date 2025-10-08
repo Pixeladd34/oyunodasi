@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import io from "socket.io-client";
+import QRCode from "qrcode";
 
 type Player = { id: string; name: string; device: "screen" | "controller" };
 
@@ -21,6 +22,7 @@ export default function EkranPage() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [actors, setActors] = useState<Record<string, Actor>>({});
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const qrCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const serverUrl = useMemo(() => process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:4000", []);
 
   useEffect(() => {
@@ -93,6 +95,15 @@ export default function EkranPage() {
     };
   }, [serverUrl]);
 
+  useEffect(() => {
+    // oda kodu geldiğinde QR üret
+    if (!roomCode || !qrCanvasRef.current) return;
+    const url = `${window.location.origin}/kumanda?code=${roomCode}`;
+    QRCode.toCanvas(qrCanvasRef.current, url, { width: 128, margin: 1 }, (err) => {
+      if (err) setConnError(err.message);
+    });
+  }, [roomCode]);
+
   const grid = useMemo(() => ({ cols: 24, rows: 14 }), []);
 
   const renderActors = useCallback(() => {
@@ -111,8 +122,11 @@ export default function EkranPage() {
           {connError ? ` — hata: ${connError}` : ""}
         </span>
       </p>
-      <div style={{fontSize:54,fontWeight:700,letterSpacing:6,fontFamily:"ui-monospace, SFMono-Regular, Menlo, monospace",padding:"6px 14px",border:"2px dashed #111",borderRadius:12,background:"#fff"}}>
-        {roomCode || "..."}
+      <div style={{display:"flex",alignItems:"center",gap:16}}>
+        <div style={{fontSize:54,fontWeight:700,letterSpacing:6,fontFamily:"ui-monospace, SFMono-Regular, Menlo, monospace",padding:"6px 14px",border:"2px dashed #111",borderRadius:12,background:"#fff"}}>
+          {roomCode || "..."}
+        </div>
+        <canvas ref={qrCanvasRef} style={{border:"1px solid #ddd",borderRadius:8, background:"white"}} />
       </div>
       <div style={{marginTop:6,fontSize:12,color:"#666"}}>sunucu: {serverUrl}</div>
       <div ref={containerRef} style={{position:"relative",marginTop:16,width:"min(960px, 90vw)",height:"min(540px, 56vw)",border:"2px solid #111",borderRadius:12,backgroundImage:"linear-gradient(0deg, rgba(0,0,0,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.03) 1px, transparent 1px)", backgroundSize:`calc(100%/${grid.cols}) calc(100%/${grid.rows})`, overflow:"hidden"}}>

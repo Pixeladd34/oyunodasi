@@ -20,15 +20,17 @@ export default function KumandaPage() {
   const serverUrl = useMemo(() => process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:4000", []);
 
   useEffect(() => {
-    const s = io(serverUrl);
+    const s = io(serverUrl, { transports: ["websocket"] });
     setSocket(s);
     return () => { s.disconnect(); };
   }, [serverUrl]);
 
   useEffect(() => {
-    // sayfa acildiginda onceki oda kodunu tekrar deneyebiliriz (kucuk iyilestirme icin yorum satiri)
-    // const lastCode = sessionStorage.getItem("lastRoomCode");
-    // if (lastCode) setCode(lastCode);
+    // URL parametresinden code ön-doldurma
+    if (typeof window === "undefined") return;
+    const u = new URL(window.location.href);
+    const c = u.searchParams.get("code");
+    if (c) setCode(c.toUpperCase());
   }, []);
 
   function join() {
