@@ -8,6 +8,9 @@ type Actor = { x: number; y: number; color: string };
 
 type DpadData = { dir: "up" | "down" | "left" | "right" };
 type ActionData = { btn: "A" | "B" };
+type ScreenInput =
+  | { from: string; type: "dpad"; data: DpadData }
+  | { from: string; type: "action"; data: ActionData };
 
 const COLORS = ["#ef4444","#f59e0b","#10b981","#3b82f6","#8b5cf6","#ec4899"]; 
 
@@ -45,14 +48,14 @@ export default function EkranPage() {
       });
     });
 
-    s.on("screen:input", (payload: { from: string; type: "dpad" | "action"; data?: DpadData | ActionData }) => {
+    s.on("screen:input", (payload: ScreenInput) => {
       setActors(prev => {
         const cur = prev[payload.from];
         if (!cur) return prev;
         const speed = 8;
         let { x, y } = cur;
         if (payload.type === "dpad") {
-          const dir = payload.data?.dir;
+          const dir = payload.data.dir;
           if (dir === "up") y -= speed;
           if (dir === "down") y += speed;
           if (dir === "left") x -= speed;
@@ -60,8 +63,8 @@ export default function EkranPage() {
         }
         if (payload.type === "action") {
           // A/B icin minik bir ziplama efekti
-          if (payload.data?.btn === "A") y -= speed * 2;
-          if (payload.data?.btn === "B") x += speed * 2;
+          if (payload.data.btn === "A") y -= speed * 2;
+          if (payload.data.btn === "B") x += speed * 2;
         }
         const bounds = containerRef.current?.getBoundingClientRect();
         const maxX = (bounds?.width ?? 800) - 24;
