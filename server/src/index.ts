@@ -116,7 +116,7 @@ io.on('connection', (socket: Socket) => {
     }
 
     if (ctx?.role === 'controller' && ctx.controllerId && rooms[ctx.code]) {
-      const room = rooms[ctx.code];
+      const room = rooms[ctx.code]!;
       const player = room.players[ctx.controllerId];
       if (player) {
         // oyuncuyu silmek yerine baglantisini bosalt (kisa sureli kopmalarda yeniden baglanabilsin)
