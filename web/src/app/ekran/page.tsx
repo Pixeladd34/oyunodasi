@@ -16,18 +16,25 @@ const COLORS = ["#ef4444","#f59e0b","#10b981","#3b82f6","#8b5cf6","#ec4899"];
 
 export default function EkranPage() {
   const [roomCode, setRoomCode] = useState<string>("");
+  const [connected, setConnected] = useState<boolean>(false);
+  const [connError, setConnError] = useState<string>("");
   const [players, setPlayers] = useState<Player[]>([]);
   const [actors, setActors] = useState<Record<string, Actor>>({});
   const containerRef = useRef<HTMLDivElement | null>(null);
   const serverUrl = useMemo(() => process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:4000", []);
 
   useEffect(() => {
-    const s = io(serverUrl, { transports: ["websocket"] });
+    const s = io(serverUrl);
 
     s.on("connect", () => {
+      setConnected(true);
       s.emit("screen:createRoom", {}, (res: { ok: boolean; code?: string; reason?: string }) => {
         if (res.ok && res.code) setRoomCode(res.code);
       });
+    });
+
+    s.on("connect_error", (err) => {
+      setConnError(err?.message || "Bağlantı hatası");
     });
 
     s.on("room:players", (list: Player[]) => {
@@ -97,8 +104,17 @@ export default function EkranPage() {
   return (
     <main style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:16,minHeight:"100svh",fontFamily:"ui-sans-serif, system-ui",padding:16}}>
       <h1 style={{fontSize:36,margin:0}}>Ekran</h1>
-      <p style={{fontSize:18}}>Bu kod ile katılın:</p>
-      <div style={{fontSize:54,fontWeight:700,letterSpacing:6}}>{roomCode || "..."}</div>
+      <p style={{fontSize:18}}>
+        Bu kod ile katılın:
+        <span style={{marginLeft:8,fontSize:12,color:"#666"}}>
+          {connected ? "bağlı" : "bağlanıyor"}
+          {connError ? ` — hata: ${connError}` : ""}
+        </span>
+      </p>
+      <div style={{fontSize:54,fontWeight:700,letterSpacing:6,fontFamily:"ui-monospace, SFMono-Regular, Menlo, monospace",padding:"6px 14px",border:"2px dashed #111",borderRadius:12,background:"#fff"}}>
+        {roomCode || "..."}
+      </div>
+      <div style={{marginTop:6,fontSize:12,color:"#666"}}>sunucu: {serverUrl}</div>
       <div ref={containerRef} style={{position:"relative",marginTop:16,width:"min(960px, 90vw)",height:"min(540px, 56vw)",border:"2px solid #111",borderRadius:12,backgroundImage:"linear-gradient(0deg, rgba(0,0,0,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.03) 1px, transparent 1px)", backgroundSize:`calc(100%/${grid.cols}) calc(100%/${grid.rows})`, overflow:"hidden"}}>
         {renderActors()}
       </div>
