@@ -27,7 +27,6 @@ const SPEED = 6;
 
 export default function PongScreen() {
   const serverUrl = useMemo(() => process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:4000", []);
-  const [socketInstance, setSocket] = useState<ReturnType<typeof io> | null>(null);
   const [roomCode, setRoomCode] = useState<string>("");
   const [players, setPlayers] = useState<PlayerInfo[]>([]);
   const [assignments, setAssignments] = useState<Record<string, Side>>({});
@@ -36,7 +35,6 @@ export default function PongScreen() {
 
   useEffect(() => {
     const s = io(serverUrl, { transports: ["websocket"] });
-    setSocket(s);
 
     s.on("connect", () => {
       s.emit("screen:createRoom", {}, (res: { ok: boolean; code?: string }) => {
@@ -97,7 +95,8 @@ export default function PongScreen() {
     const loop = () => {
       setState(cur => {
         if (!cur.started) return cur;
-        let { ballX, ballY, velX, velY, leftY, rightY } = cur;
+        let { ballX, ballY, velX, velY } = cur;
+        const { leftY, rightY } = cur;
         ballX += velX; ballY += velY;
         if (ballY <= 0 || ballY + BALL >= HEIGHT) velY *= -1;
         // sol paddle carpismasi
