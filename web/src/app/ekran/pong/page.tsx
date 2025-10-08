@@ -27,7 +27,7 @@ const SPEED = 6;
 
 export default function PongScreen() {
   const serverUrl = useMemo(() => process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:4000", []);
-  const [_, setSocket] = useState<ReturnType<typeof io> | null>(null);
+  const [socketInstance, setSocket] = useState<ReturnType<typeof io> | null>(null);
   const [roomCode, setRoomCode] = useState<string>("");
   const [players, setPlayers] = useState<PlayerInfo[]>([]);
   const [assignments, setAssignments] = useState<Record<string, Side>>({});
@@ -71,7 +71,7 @@ export default function PongScreen() {
 
         const side = assignments[payload.from];
         if (!side) return cur;
-        let next = { ...cur } as GameState;
+        const next = { ...cur } as GameState;
         if (payload.type === "dpad") {
           const dir = payload.data?.dir;
           if (side === "left") {

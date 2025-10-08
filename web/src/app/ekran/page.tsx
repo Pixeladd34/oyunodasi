@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import io, { Socket } from "socket.io-client";
+import io from "socket.io-client";
 
 type Player = { id: string; name: string; device: "screen" | "controller" };
 
