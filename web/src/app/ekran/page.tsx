@@ -24,7 +24,7 @@ export default function EkranPage() {
   const serverUrl = useMemo(() => process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:4000", []);
 
   useEffect(() => {
-    const s = io(serverUrl);
+    const s = io(serverUrl, { transports: ["websocket"] });
 
     s.on("connect", () => {
       setConnected(true);
