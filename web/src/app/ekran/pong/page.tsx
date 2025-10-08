@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
-import io, { Socket } from "socket.io-client";
+import io from "socket.io-client";
 
 type PlayerInfo = { id: string; name: string };
 
@@ -27,7 +27,7 @@ const SPEED = 6;
 
 export default function PongScreen() {
   const serverUrl = useMemo(() => process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:4000", []);
-  const [socket, setSocket] = useState<Socket | null>(null);
+  const [_, setSocket] = useState<ReturnType<typeof io> | null>(null);
   const [roomCode, setRoomCode] = useState<string>("");
   const [players, setPlayers] = useState<PlayerInfo[]>([]);
   const [assignments, setAssignments] = useState<Record<string, Side>>({});
@@ -44,7 +44,7 @@ export default function PongScreen() {
       });
     });
 
-    s.on("room:players", (list: any[]) => {
+    s.on("room:players", (list: Array<{ id: string; name: string }>) => {
       const mapped = list.map(p => ({ id: p.id as string, name: p.name as string }));
       setPlayers(mapped);
       // Otomatik atama: ilk iki oyuncu paddles
@@ -57,7 +57,7 @@ export default function PongScreen() {
       });
     });
 
-    s.on("screen:input", (payload: { from: string; type: string; data?: any }) => {
+    s.on("screen:input", (payload: { from: string; type: "dpad" | "action"; data?: { dir?: "up" | "down" | "left" | "right"; btn?: "A" | "B" } }) => {
       setState(cur => {
         // A ile baslat/durdur, B ile reset
         if (payload.type === "action") {
@@ -71,7 +71,7 @@ export default function PongScreen() {
 
         const side = assignments[payload.from];
         if (!side) return cur;
-        let next = { ...cur };
+        let next = { ...cur } as GameState;
         if (payload.type === "dpad") {
           const dir = payload.data?.dir;
           if (side === "left") {
@@ -126,7 +126,7 @@ export default function PongScreen() {
       <div style={{position:"relative", width: WIDTH, maxWidth: "95vw", aspectRatio:"16/9", border:"2px solid #111", borderRadius:12, background:"#0a0a0a", overflow:"hidden"}}>
         {!state.started && (
           <div style={{position:"absolute", inset:0, display:"grid", placeItems:"center", color:"#999", fontSize:14}}>
-            Kumandadan <b>A</b>'ya basarak başlatın — <b>B</b> ile reset
+            Kumandadan <b>A</b>&#39;ya basarak başlatın — <b>B</b> ile reset
           </div>
         )}
         {/* orta cizgi */}

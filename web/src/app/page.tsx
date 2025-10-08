@@ -16,10 +16,10 @@ export default function Home() {
 
       <section className={styles.hero}>
         <div>
-          <h1 className={styles.heroTitle}>Telefonunu kumandaya çevir, TV'de birlikte oyna.</h1>
+          <h1 className={styles.heroTitle}>Telefonunu kumandaya çevir, TV&#39;de birlikte oyna.</h1>
           <p className={styles.heroSubtitle}>Herhangi bir TV tarayıcısından bağlan, arkadaşların telefonlarını saniyeler içinde kumandaya dönüştür.</p>
           <div className={styles.heroCtas}>
-            <a className={`${styles.linkBtn} ${styles.linkPrimary}`} href="/ekran">TV'de Başlat</a>
+            <a className={`${styles.linkBtn} ${styles.linkPrimary}`} href="/ekran">TV&#39;de Başlat</a>
             <a className={styles.linkBtn} href="/kumanda">Telefonda Katıl</a>
           </div>
         </div>
@@ -73,10 +73,10 @@ export default function Home() {
       <section className={styles.markets}>
         <div className={styles.marketRow}>
           <a className={styles.marketBadge} href="#"> 
-            <span className={styles.marketIcon} /> App Store'dan İndir
+            <span className={styles.marketIcon} /> App Store&#39;dan İndir
           </a>
           <a className={`${styles.marketBadge} ${styles.marketBadgeLight}`} href="#">
-            <span className={styles.marketIcon} /> Google Play'den Alın
+            <span className={styles.marketIcon} /> Google Play&#39;den Alın
           </a>
           <a className={`${styles.marketBadge} ${styles.marketBadgeLight}`} href="#">
             <span className={styles.marketIcon} /> Amazon Appstore
@@ -91,11 +91,11 @@ export default function Home() {
         <div className={styles.stepsGrid}>
           <div className={styles.step}>
             <div className={styles.stepNum}>1</div>
-            TV'de <b>Ekranı Aç</b>'ı seç.
+            TV&#39;de <b>Ekranı Aç</b>&#39;ı seç.
           </div>
           <div className={styles.step}>
             <div className={styles.stepNum}>2</div>
-            Telefonda <b>Kumanda</b>'yı aç ve kodu gir.
+            Telefonda <b>Kumanda</b>&#39;yı aç ve kodu gir.
           </div>
           <div className={styles.step}>
             <div className={styles.stepNum}>3</div>

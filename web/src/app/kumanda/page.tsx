@@ -42,7 +42,7 @@ export default function KumandaPage() {
     });
   }
 
-  function send(type: string, data?: any) {
+  function send(type: "dpad" | "action", data?: { dir?: "up" | "down" | "left" | "right"; btn?: "A" | "B" }) {
     if (!socket || !joined) return;
     socket.emit("controller:input", { code, type, data });
     if (navigator.vibrate) navigator.vibrate(10);

@@ -6,10 +6,12 @@ type Player = { id: string; name: string; device: "screen" | "controller" };
 
 type Actor = { x: number; y: number; color: string };
 
+type DpadData = { dir: "up" | "down" | "left" | "right" };
+type ActionData = { btn: "A" | "B" };
+
 const COLORS = ["#ef4444","#f59e0b","#10b981","#3b82f6","#8b5cf6","#ec4899"]; 
 
 export default function EkranPage() {
-  const [socket, setSocket] = useState<Socket | null>(null);
   const [roomCode, setRoomCode] = useState<string>("");
   const [players, setPlayers] = useState<Player[]>([]);
   const [actors, setActors] = useState<Record<string, Actor>>({});
@@ -18,7 +20,6 @@ export default function EkranPage() {
 
   useEffect(() => {
     const s = io(serverUrl, { transports: ["websocket"] });
-    setSocket(s);
 
     s.on("connect", () => {
       s.emit("screen:createRoom", {}, (res: { ok: boolean; code?: string; reason?: string }) => {
@@ -44,7 +45,7 @@ export default function EkranPage() {
       });
     });
 
-    s.on("screen:input", (payload: { from: string; type: string; data?: any }) => {
+    s.on("screen:input", (payload: { from: string; type: "dpad" | "action"; data?: DpadData | ActionData }) => {
       setActors(prev => {
         const cur = prev[payload.from];
         if (!cur) return prev;
