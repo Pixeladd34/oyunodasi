@@ -34,7 +34,7 @@ export default function PongScreen() {
   const animRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const s = io(serverUrl, { transports: ["websocket"] });
+    const s = io(serverUrl);
 
     s.on("connect", () => {
       s.emit("screen:createRoom", {}, (res: { ok: boolean; code?: string }) => {
