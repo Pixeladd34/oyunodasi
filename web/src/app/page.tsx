@@ -58,15 +58,27 @@ export default function Home() {
 
       <section className={styles.gallery}>
         <div className={styles.galleryGrid}>
-          {["Top Oyunu", "Yarış", "Quiz", "Pong+"].map((title, i) => (
-            <div className={styles.card} key={i}>
-              <div className={styles.cardImage} />
-              <div className={styles.cardBody}>
-                <div className={styles.cardTitle}>{title}</div>
-                <div className={styles.cardText}>Çok oyunculu eğlence, telefonla kontrol.</div>
-              </div>
+          <a className={styles.card} href="/ekran/oyun3d">
+            <div className={styles.cardImage} />
+            <div className={styles.cardBody}>
+              <div className={styles.cardTitle}>3B Kutu Arenası</div>
+              <div className={styles.cardText}>Telefonla hareket et, A ile zıpla, B ile döndür.</div>
             </div>
-          ))}
+          </a>
+          <div className={styles.card}>
+            <div className={styles.cardImage} />
+            <div className={styles.cardBody}>
+              <div className={styles.cardTitle}>Yarış (yakında)</div>
+              <div className={styles.cardText}>Çok oyunculu eğlence, telefonla kontrol.</div>
+            </div>
+          </div>
+          <div className={styles.card}>
+            <div className={styles.cardImage} />
+            <div className={styles.cardBody}>
+              <div className={styles.cardTitle}>Quiz (yakında)</div>
+              <div className={styles.cardText}>Çok oyunculu eğlence, telefonla kontrol.</div>
+            </div>
+          </div>
         </div>
       </section>
 
