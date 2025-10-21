@@ -1,57 +1,36 @@
-# AirConsole Klonu
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Bu proje, TV tarayıcısı (Ekran) ve telefon (Kumanda) ile çok oyunculu etkileşim sunar. Sunucu Socket.IO ile gerçek zamanlı oda yönetimi sağlar.
+## Getting Started
 
-## Kurulum
-
-```bash
-cd /Users/cenker/air_console
-npm install
-```
-
-## Geliştirme
-
-Aşağıdaki komut, hem sunucuyu hem web uygulamasını birlikte başlatır:
+First, run the development server:
 
 ```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-- Sunucu: `http://localhost:4000/health`
-- Web (Next.js): `http://localhost:3000`
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Akış
-1. TV tarayıcısında `http://localhost:3000/ekran` açılır; oda kodu oluşur.
-2. Telefon tarayıcısında `http://localhost:3000/kumanda` açılır; oda kodu girilerek bağlanılır.
-3. Kumanda üzerindeki yön ve A/B tuşları ekrandaki kutucuğu hareket ettirir.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## Üretim için notlar
-- Sunucu ve web farklı portlarda çalışır. Üretimde ters vekil (Nginx) ile tek etki alanından servis edilebilir.
-- `web/.env.local` içinde `NEXT_PUBLIC_SERVER_URL` ortam değişkeni Socket.IO sunucu adresine işaret etmelidir.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Dağıtım (GitHub + Render + Vercel)
+## Learn More
 
-1) GitHub
-- Bu dizinde bir git deposu oluşturup GitHub’a push edin.
-- Monorepo yapısı: `server` (Socket.IO sunucusu), `web` (Next.js).
+To learn more about Next.js, take a look at the following resources:
 
-2) Render (Sunucu)
-- Render’da New → Web Service → Reponuzu seçin.
-- Root Directory: `server`
-- Build Command: `npm install && npm run build`
-- Start Command: `npm run start`
-- Plan: Free (uyku olabilir)
-- Oluşan URL’yi not alın: ör. `https://air-console-server.onrender.com`
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-3) Vercel (Web)
-- Vercel’de New Project → Reponuzu seçin.
-- Root Directory: `web`
-- Environment Variables: `NEXT_PUBLIC_SERVER_URL` → Render’daki sunucu URL’si
-- Deploy → `https://<proje>.vercel.app`
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-4) Test
-- TV (veya bilgisayar) tarayıcısında: `https://<proje>.vercel.app/ekran`
-- Telefonda: `https://<proje>.vercel.app/kumanda` → ekran kodunu girin.
+## Deploy on Vercel
 
-## Lisans
-Bu proje eğitim amaçlıdır ve AirConsole ile bağlantılı değildir.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
