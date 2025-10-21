@@ -34,3 +34,4 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+\n## Türkçe Kurulum (Özet)\n- Ortam değişkenleri: UPLOAD_SECRET, POSTGRES_URL (Vercel Postgres), BLOB_READ_WRITE_TOKEN (Vercel Blob)\n- API: POST /api/upload (Bearer UPLOAD_SECRET), GET /api/latest\n- Pano: / (Cihaz başına son ekran)\n- PowerShell ajan: scripts/agent.ps1 (Zamanlanmış Görev ile her 1 dk)\n

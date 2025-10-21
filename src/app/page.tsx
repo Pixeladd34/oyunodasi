@@ -1,95 +1,50 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+import { useEffect, useState } from "react";
+
+type Shot = {
+  id: string;
+  device_id: string;
+  file_url: string;
+  hostname: string | null;
+  created_at: string;
+};
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [items, setItems] = useState<Shot[]>([]);
+  const [tick, setTick] = useState(0);
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  useEffect(() => {
+    const fetchLatest = async () => {
+      const r = await fetch("/api/latest", { cache: "no-store" });
+      const j = await r.json();
+      setItems(j);
+    };
+    fetchLatest();
+    const t = setInterval(() => setTick((x) => x + 1), 15000);
+    return () => clearInterval(t);
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const r = await fetch("/api/latest", { cache: "no-store" });
+      setItems(await r.json());
+    })();
+  }, [tick]);
+
+  return (
+    <div style={{ padding: 16 }}>
+      <h1 style={{ fontSize: 18, marginBottom: 12 }}>Cihaz Ekranları</h1>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 12 }}>
+        {items.map((x) => (
+          <div key={x.id} style={{ border: "1px solid #ddd", padding: 8, borderRadius: 8, background: '#fff' }}>
+            <div style={{ fontSize: 12, marginBottom: 6 }}>
+              {x.device_id} {x.hostname ? `(${x.hostname})` : ""} — {new Date(x.created_at).toLocaleTimeString()}
+            </div>
+            <img src={x.file_url} alt={x.device_id} style={{ width: "100%", borderRadius: 4 }} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
+
